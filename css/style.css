@@ -1,0 +1,414 @@
+/*Criar variaveis 'globais nesse caso' no CSS*/
+:root {
+   --primary-color: #0A1128;
+   --white-color: #FFFFFF;
+   --light-gray-color: #EEEEEE;
+   --secondary-color: crimson;
+   --gap: 3rem; /*3 rem equivale a 30px marromeno*/
+}
+
+.main-bg {
+   background-image: url('../img/main-bg.svg');
+   background-size: cover;
+   background-position: center center;
+   color: var(--white-color);
+}
+
+.white-bg {
+   background: var(--white-color);
+   color: var(--primary-color);
+}
+.main-content {
+   max-width: 120rem;
+   margin: 0 auto;
+   padding: 8rem var(--gap);
+}
+.section {
+   min-height: 100vh;
+   /*100vh equivale a 100% da viewport,
+   logo a sessão sera full-height*/ 
+}
+/*-------- MENU -----------*/
+
+.menu {
+   position: fixed;
+   /*isso faz com que ele role junto com a página.
+   com isso ele ja perde o comportamento block e os outros elementos
+   passam a 'ignorar' que ele esteja ali.*/
+   top: 0;
+   /*sempre vai ficar no topo*/
+   left: 0;
+   right: 0;
+   /*'prendendo' ele nas duas pontas = full-width*/
+   width: 100%;
+   /*garantindo que ele seja de fato full-width*/
+   border-bottom: 0.1rem solid var(--light-gray-color);
+   z-index: 1;
+   /*deixa o menu absoluto na frente de geral.*/
+}
+.menu-content {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   /*alinha no eixo perpendicular/cross-axis (nesse caso vertical)*/
+   padding-top: 0;
+   padding-bottom: 0;
+   /*aqui estamos zerando o padding pois queremos que o menu do a
+   'empurre' os elementos, por isso colocamos o display dele (a)
+   como block*/
+}
+.menu h1 {
+   font-size: 2.3rem;
+   color: var(--primary-color);
+}
+.menu h1 a {
+   color: inherit;
+   /*herda a cor do pai (o h1 logo acima)*/
+}
+.menu ul {
+   list-style: none;
+   display: flex;
+}
+.menu ul li a {
+   display: block;
+   padding: 2rem;
+   font-size: 1.8rem;
+   color: var(--primary-color);
+   position: relative;
+}
+.menu ul li a::after {
+   content: '';
+   position: absolute;
+   bottom: 1rem;
+   left: 50%;
+   width: 0;
+   height: 0.2rem;
+   background: var(--secondary-color);
+   /*se eu colocasse só assim, ele ficaria full-width por conta do
+   absolute, para aplicar o width em cada li a individualmente, 
+   ele tem que herdar do pai, dai colocamos a posição relativa no pai.*/
+   transition: all 300ms ease-in-out;
+}
+.menu ul li a:hover::after {
+   width: 55%;
+   left: 25%;
+   /*com isso e o left no after com 50%, a animação anda do meio
+   pras extremidades ;) */
+}
+.menu-spacing {
+   height: 6.5rem;
+}
+/* ------- INTRO --------*/
+
+.intro-content {
+   position: relative;
+   /* top: -8rem; */
+   /*Aqui estamos tirando a diferença do menu (65px ou 6.5rem)
+   para o conteúdo ficar exatamente ao centro. no caso colocamos
+   8rem para ficar 'um pouquinho' mais pra cima*/
+   display: grid;
+   grid-template-columns: 1fr 1.5fr;
+   gap: var(--gap);
+   min-height: 100vh;
+   /*axis/eixos não é uma propriedade da grid porem funciona, 
+   porem ele se movimenta dentro da linha/coluna, dai colocando
+   height/widht como 100vh ele pega a viewport toda*/
+}
+.intro-text-content, .intro-img {
+   display: flex;
+   flex-flow: column wrap;
+   justify-content: center;
+}
+.intro-img img {
+   max-width: 100%;
+   height: auto;
+}
+
+/* ------- TOP 3 --------*/
+
+.top3-content {
+   max-width: 64rem;
+   height: 100vh;
+   display: flex;
+   flex-flow: column nowrap;
+   /*atalho para:
+   flex-direction: column ou row (define a direção do eixo principal)
+   flex-wrap: wrap (caso os itens sejam maiores que o container eles são 
+   quebrados para outra linha).
+   nowrap não permite que a coluna quebre, no meu caso ta funcionando assim
+   então eu deixei.
+   - são uma especie de atributos do display flex*/
+   justify-content: center;
+   text-align: center;
+}
+
+/* ----- TOP3/GRID ----- */
+
+.grid-one-content {
+   min-height: 100vh;
+   /*min-height: quer dizer que se passar disso ele pode crescer mais*/
+   display: flex;
+   flex-flow: column wrap;
+   justify-content: center;
+}
+.grid-main-heading{
+   margin-bottom: 1rem;
+}
+.grid-description {
+   padding-bottom: 5rem;
+}
+.grid {
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   gap: var(--gap);
+   counter-reset: grid-counter;
+   /*criando um contator na div grid*/
+}
+.grid h3 {
+   font-size: 3rem;
+   position: relative;
+   /*isso é para 'segurar' o contador dentro do container.
+   literalmente falando ele esta 'posicionado' em relação ao meu h3*/
+   padding-left: 7rem;
+   padding-bottom: 2rem;
+}
+.grid h3::before {
+   counter-increment: grid-counter;
+   content: counter(grid-counter);
+   /*adicionando o contador 'Antes' dos h3*/
+   /*geralmente colocamos o content como '' vazio ou . apenas
+   ver depois porque kkkkk*/
+   position: absolute;
+   font-size: 8rem;
+   font-style: italic;
+   top: -4rem;
+   left: 0;
+   transform: rotate(5deg);
+   /*Gira 5 graus p/ direita*/
+}
+
+/* ----------- Gallery ----------- */
+
+.gallery-img {
+   width: 100%;
+   max-width: 36rem;
+   max-height: 36rem;
+   overflow: hidden;
+   /*Configuração para a galeria ficar na mesma página (sem transbordar)
+   isso só é possivel pq estamos com o nowrap (no meu caso eu não setei
+   o nowrap mas continua funcionando kkkkk)*/
+}
+.gallery-img img {
+   /*tratando só a imagem e não a galeria completa*/
+   transition: all 300ms ease-in-out;
+}
+.gallery-img img:hover {
+   transform: scale(1.2) /*aumenta a imagem, 1 e o normal*/
+   rotate(5deg) /*roda 5 graus*/;
+   /*ainda tem o translate(5%, 3%) onde 5 ela se move no eixo horizontal
+   e 3 no eixo vertical*/
+}
+
+/* ----------- Pricing/Tabela de preços ----------- */
+
+.responsive-table {
+   overflow: hidden;
+   overflow-x: auto;
+   max-width: 100%;
+}
+table {
+   min-width: 32rem;
+   border-collapse: collapse;
+   /*junta a borda (tira os espaços)*/
+}
+table caption {
+   font-style: italic;
+   font-size: 1.6rem;
+   text-align: left;
+   margin-bottom: 1rem;
+}
+table td, table th {
+   white-space: nowrap;
+   /*opção para não quebrar o texto*/
+   padding: 1rem;
+   text-align: left;
+   border: 0.1rem solid var(--light-gray-color);
+}
+tfoot td, table th {
+   background: var(--light-gray-color);
+}
+
+/* ----------- CONTACT/Formulário ----------- */
+
+#info-form {
+   margin-bottom: -25rem;
+}
+.contact-form {
+   grid-column: span 2;
+}
+.contact-form .form-grid {
+   border: none;
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   gap: var(--gap);
+}
+.form-group {
+   min-width: 320px;
+   flex: 1 1 auto;
+}
+.form-grid legend {
+   font-style: italic;
+   font-size: 1.6rem;
+   margin-bottom: 3rem;
+}
+.form-group label {
+   display: block;
+   margin-bottom: 1rem;
+}
+.form-group input,
+.form-group textarea {
+   font-size: 3rem;
+   border: none;
+   background: var(--white-color);
+   padding: 1rem 1rem;
+   width: 100%;
+}
+.full-width {
+   width: 100%;
+}
+.form-group button {
+   border: 0.5rem solid var(--white-color);
+   background: none;
+   color: var(--white-color);
+   padding: 1rem 1rem;
+   font-size: 3rem;
+   cursor: pointer;
+   transition: all 300ms ease-in-out;
+}
+.form-group button:hover {
+   background: var(--white-color);
+   color: var(--primary-color);
+}
+.form-group ::placeholder {
+   color: grey;
+}
+
+/* ----------- Rodapé ----------- */
+
+.footer {
+   text-align: center;
+   height: 1.6rem;
+}
+.footer a {
+   color: var(--primary-color);
+}
+.heart {
+   color: var(--secondary-color);
+}
+/*escondendo o checkbox e deixando só o label (que ja está com o 
+label for pro checkbox)*/
+.close-menu {
+   display: none;
+}
+.back-to-top {
+   position: fixed;
+   bottom: 2rem;
+   right: 2rem;
+   background: var(--white-color);
+   width: 4rem;
+   height: 4rem;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border-radius: 50%;
+   color: var(--primary-color);
+   transform: rotate(-90deg);
+   border: 0.1rem solid var(--primary-color);
+}
+
+/* ------- Responsividade ------- */
+
+@media (max-width: 800px) {
+   .intro-content, .grid {
+      grid-template-columns: 1fr;
+   }
+
+   .top3-content {
+      margin-top: 10rem;
+      margin-bottom: 10rem;
+   }
+
+   .responsive-table {
+      height: 100%;
+   }
+
+   .gallery-img {
+      width: 100%;
+      max-width: 100%;
+      max-height: 100%;
+   }
+
+   .gallery-img img {
+      width: 100%;
+   }
+
+   .grid-one-content {
+      display: block;
+   }
+
+   .menu {
+      bottom: 0;
+      text-align: center;
+   }
+
+   .menu-content, .menu-content ul {
+      flex-direction: column;
+      justify-content: center;
+   }
+
+   .menu-content {
+      height: 100vh;
+   }
+
+   .menu {
+      display: none;
+   }
+
+   .close-menu-label::after {
+      content: '≡';
+      /*Esse content é o que vai aparecer no navegador*/
+      position: fixed;
+      z-index: 2;
+      top: 2rem;
+      right: 2rem;
+      background: var(--primary-color);
+      color: var(--white-color);
+      font-size: 3rem;
+      line-height: 3rem;
+      width: 3rem;
+      height: 3rem;
+      text-align: center;
+      padding: 0.3rem;
+      cursor: pointer;
+   }
+
+   /*usando general simbling selector para selecionar um junto com outro*/
+   .close-menu:checked~.menu {
+      display: block;
+   }
+
+   .close-menu:checked~.close-menu-label::after {
+      content: '×';
+   }
+
+   .menu-spacing {
+      display: none;
+   }
+}
+@media (max-width: 320px) {
+   .responsive-table {
+      height: 100%;
+      padding-bottom: 10rem;
+   }
+}
